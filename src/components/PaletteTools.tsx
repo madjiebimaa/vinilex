@@ -1,7 +1,9 @@
-import { Color } from '@/lib/types';
-import { useColorActions } from '@/store/color';
 import { Brush, Check, Copy, LucideIcon } from 'lucide-react';
 import { useState } from 'react';
+
+import { Color } from '@/lib/types';
+import { useColorActions } from '@/store/color';
+
 import { Button } from './ui/button';
 
 interface PaletteToolsProps {

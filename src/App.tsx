@@ -1,5 +1,6 @@
 import Aside from './components/Aside';
 import PaletteList from './components/PaletteList';
+
 import { useSelectedColor } from './store/color';
 
 export default function App() {

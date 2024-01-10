@@ -1,6 +1,8 @@
+import { Heart } from 'lucide-react';
+
 import { Color } from '@/lib/types';
 import { useColorActions, useFavoriteColors } from '@/store/color';
-import { Heart } from 'lucide-react';
+
 import PaletteTools from './PaletteTools';
 import { Button } from './ui/button';
 
@@ -25,7 +27,7 @@ export default function Palette({ color }: PaletteProps) {
         >
           <Heart
             className={`shrink-0 h-4 w-4 ${
-              isFavoriteColor ? 'text-red-600 fill-red-600' : ''
+              isFavoriteColor ? 'text-red-600 fill-red-600' : 'fill-white'
             }`}
           />
         </Button>

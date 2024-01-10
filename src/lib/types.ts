@@ -4,3 +4,5 @@ export type Color = {
   code: string;
   hexCode: string;
 };
+
+export type ColorFilter = "favorite"
