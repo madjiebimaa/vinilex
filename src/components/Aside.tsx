@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 
 export default function Aside() {
   return (
-    <aside className="flex flex-col p-6 md:sticky md:top-0 md:h-screen md:max-w-[300px]">
+    <aside className="flex flex-col p-4 md:p-6 md:sticky md:top-0 md:h-screen md:max-w-[300px]">
       <header className="flex flex-col space-y-4">
         <p className="font-mono text-sm md:text-base">
           <strong className="font-bold text-lg md:text-xl text-transparent bg-gradient-to-r from-red-400 via-yellow-400 to-purple-400 bg-clip-text">
