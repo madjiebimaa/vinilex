@@ -1,12 +1,19 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import {
+  applyColorFilter,
+  applyColorSort,
+  getColorFilterOpponent,
+  isColorFilterHasPairs,
+} from '@/lib/utils';
 import colors from '../data/colors.json';
 import { Color, ColorFilter } from './../lib/types';
 
 type ColorState = {
   selectedColor: Color | null;
   favoriteColors: Color['id'][];
+  colorFilters: Set<ColorFilter>;
   filteredColors: Color[];
 };
 
@@ -14,13 +21,15 @@ type ColorActions = {
   actions: {
     selectColor: (color: Color) => void;
     toggleColorToFavorite: (id: Color['id']) => void;
-    filterColors: (filters: ColorFilter[]) => void;
+    setColorFilters: (filter: ColorFilter) => void;
+    filterColors: () => void;
   };
 };
 
 const initialState: ColorState = {
   selectedColor: null,
   favoriteColors: [],
+  colorFilters: new Set<ColorFilter>(),
   filteredColors: colors,
 };
 
@@ -55,18 +64,32 @@ const colorStore = create<ColorState & ColorActions>()(
               favoriteColors: [...state.favoriteColors, id],
             };
           }),
-        filterColors: (filters) =>
+        setColorFilters: (filter) =>
           set((state) => {
-            if (filters.includes('favorite')) {
-              return {
-                filteredColors: colors.filter((color) =>
-                  state.favoriteColors.includes(color.id)
-                ),
-              };
+            if (state.colorFilters.has(filter)) {
+              state.colorFilters.delete(filter);
+            } else {
+              state.colorFilters.add(filter);
+              isColorFilterHasPairs(filter) &&
+                state.colorFilters.delete(getColorFilterOpponent(filter)!);
             }
 
             return {
-              filteredColors: colors,
+              colorFilters: new Set(state.colorFilters),
+            };
+          }),
+        filterColors: () =>
+          set((state) => {
+            let filteredColors = [...colors];
+            filteredColors = applyColorSort(filteredColors, state.colorFilters);
+            filteredColors = applyColorFilter(
+              filteredColors,
+              state.colorFilters,
+              state.favoriteColors
+            );
+
+            return {
+              filteredColors,
             };
           }),
       },
@@ -83,6 +106,7 @@ export const useSelectedColor = () =>
   colorStore((state) => state.selectedColor);
 export const useFavoriteColors = () =>
   colorStore((state) => state.favoriteColors);
+export const useColorFilters = () => colorStore((state) => state.colorFilters);
 export const useFilteredColors = () =>
   colorStore((state) => state.filteredColors);
 export const useColorActions = () => colorStore((state) => state.actions);

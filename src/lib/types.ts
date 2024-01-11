@@ -5,4 +5,4 @@ export type Color = {
   hexCode: string;
 };
 
-export type ColorFilter = "favorite"
+export type ColorFilter = "favorite" | "increment-alphabet" | "decrement-alphabet" | "increment-number" | "decrement-number"

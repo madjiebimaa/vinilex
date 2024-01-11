@@ -1,44 +1,38 @@
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
 
-import { useColorActions } from '@/store/color';
+import { useColorActions, useColorFilters } from '@/store/color';
 
-import { ColorFilter } from '@/lib/types';
+import ColorSorters from './ColorSorters';
 import { Button } from './ui/button';
 
 export default function ColorFilters() {
-  const [filters, setFilters] = useState<ColorFilter[]>([]);
+  const colorFilters = useColorFilters();
   const colorActions = useColorActions();
 
   const handleFavoriteFilterClick = () => {
-    let nextFilters: ColorFilter[];
-
-    if (filters.includes('favorite')) {
-      nextFilters = filters.filter((filter) => filter !== 'favorite');
-      setFilters(nextFilters);
-    } else {
-      nextFilters = [...filters, 'favorite'];
-      setFilters(nextFilters);
-    }
-
-    colorActions.filterColors(nextFilters);
+    colorActions.setColorFilters('favorite');
+    colorActions.filterColors();
   };
 
   return (
-    <section className="flex justify-center items-center gap-1 w-fit p-1 mx-auto rounded-full shadow-md bg-slate-100">
-      <Button
-        size="icon"
-        className="rounded-full shadow-md bg-gradient-to-r from-red-400 via-yellow-400 to-purple-400"
-        onClick={handleFavoriteFilterClick}
-      >
-        <Heart
-          className={`shrink-0 h-4 w-4 ${
-            filters.includes('favorite')
-              ? 'text-red-600 fill-red-600'
-              : 'fill-white'
-          }`}
-        />
-      </Button>
+    <section className="flex justify-center items-center gap-2 w-fit mx-auto">
+      <div className="flex justify-center items-center gap-1 w-fit p-1 rounded-full shadow-md bg-slate-100">
+        <Button
+          variant="secondary"
+          size="icon"
+          className="rounded-full bg-white hover:brightness-90 transition-all duration-300"
+          onClick={handleFavoriteFilterClick}
+        >
+          <Heart
+            className={`shrink-0 h-4 w-4 ${
+              colorFilters.has('favorite')
+                ? 'text-red-600 fill-red-600'
+                : 'fill-white'
+            } transition-colors duration-300`}
+          />
+        </Button>
+      </div>
+      <ColorSorters />
     </section>
   );
 }

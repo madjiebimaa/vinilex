@@ -1,14 +1,14 @@
 import { Github } from 'lucide-react';
 
-import { Button } from './ui/button';
 import ColorFilters from './ColorFilters';
+import { Button } from './ui/button';
 
 export default function Aside() {
   return (
     <aside className="flex flex-col gap-4 p-4 md:p-6 md:sticky md:top-0 md:h-screen md:max-w-[300px]">
       <header className="flex flex-col space-y-4">
         <p className="font-mono text-sm md:text-base">
-          <strong className="font-bold text-lg md:text-xl text-transparent bg-gradient-to-r from-red-400 via-yellow-400 to-purple-400 bg-clip-text">
+          <strong className="font-bold text-lg md:text-xl text-transparent bg-gradient-to-r from-red-600 via-yellow-600 to-purple-600 bg-clip-text">
             Vinilex
           </strong>{' '}
           is the ultimate emulsion paint by Nippon Paints, perfect for
