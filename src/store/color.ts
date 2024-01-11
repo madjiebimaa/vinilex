@@ -1,12 +1,12 @@
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
-
 import {
   applyColorFilter,
   applyColorSort,
-  getColorFilterOpponent,
-  isColorFilterHasPairs,
+  getColorSortOpponents,
+  isColorSort,
 } from '@/lib/utils';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
 import colors from '../data/colors.json';
 import { Color, ColorFilter } from './../lib/types';
 
@@ -70,8 +70,10 @@ const colorStore = create<ColorState & ColorActions>()(
               state.colorFilters.delete(filter);
             } else {
               state.colorFilters.add(filter);
-              isColorFilterHasPairs(filter) &&
-                state.colorFilters.delete(getColorFilterOpponent(filter)!);
+              isColorSort(filter) &&
+                getColorSortOpponents(filter).forEach((colorSortOpponent) =>
+                  state.colorFilters.delete(colorSortOpponent)
+                );
             }
 
             return {
@@ -97,7 +99,9 @@ const colorStore = create<ColorState & ColorActions>()(
     {
       name: 'color-storage',
       storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ favoriteColors: state.favoriteColors }),
+      partialize: (state) => ({
+        favoriteColors: state.favoriteColors,
+      }),
     }
   )
 );

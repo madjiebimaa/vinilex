@@ -7,37 +7,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const colorFilterPairs = new Map<ColorFilter, ColorFilter>([
-  ['increment-alphabet', 'decrement-alphabet'],
-  ['increment-number', 'decrement-number'],
-]);
+const colorSorts: Exclude<ColorFilter, 'favorite'>[] = [
+  'increment-alphabet',
+  'decrement-alphabet',
+  'increment-number',
+  'decrement-number',
+];
 
-export function isColorFilterHasPairs(filter: ColorFilter) {
-  let isHasPairs = false;
-
-  for (const [key, value] of colorFilterPairs.entries()) {
-    if (key === filter) {
-      isHasPairs = true;
-    }
-
-    if (value === filter) {
-      isHasPairs = true;
-    }
-  }
-
-  return isHasPairs;
+export function isColorSort(colorFilter: ColorFilter) {
+  return colorFilter !== 'favorite';
 }
 
-export function getColorFilterOpponent(filter: ColorFilter) {
-  for (const [key, value] of colorFilterPairs.entries()) {
-    if (key === filter) {
-      return value;
-    }
-
-    if (value === filter) {
-      return key;
-    }
-  }
+export function getColorSortOpponents(colorFilter: ColorFilter) {
+  return colorSorts.filter(
+    (colorSortFilter) => colorSortFilter !== colorFilter
+  );
 }
 
 export function applyColorFilter(
@@ -71,23 +55,19 @@ export function applyColorSort(
   colorFilters: Set<ColorFilter>
 ) {
   if (colorFilters.has('increment-alphabet')) {
-    filteredColors = [
-      ...filteredColors.sort((a, b) => alphabetComparison(a, b)),
-    ];
-  } else if (colorFilters.has('decrement-alphabet')) {
-    filteredColors = [
-      ...filteredColors.sort((a, b) => alphabetComparison(a, b) * -1),
-    ];
+    return [...filteredColors.sort((a, b) => alphabetComparison(a, b))];
+  }
+
+  if (colorFilters.has('decrement-alphabet')) {
+    return [...filteredColors.sort((a, b) => alphabetComparison(a, b) * -1)];
   }
 
   if (colorFilters.has('increment-number')) {
-    filteredColors = [
-      ...filteredColors.sort((a, b) => numericComparison(a, b)),
-    ];
-  } else if (colorFilters.has('decrement-number')) {
-    filteredColors = [
-      ...filteredColors.sort((a, b) => numericComparison(a, b) * -1),
-    ];
+    return [...filteredColors.sort((a, b) => numericComparison(a, b))];
+  }
+
+  if (colorFilters.has('decrement-number')) {
+    return [...filteredColors.sort((a, b) => numericComparison(a, b) * -1)];
   }
 
   return filteredColors;
