@@ -11,6 +11,7 @@ import colors from '../data/colors.json';
 import { Color, ColorFilter } from './../lib/types';
 
 type ColorState = {
+  colors: Color[];
   selectedColor: Color | null;
   favoriteColors: Color['id'][];
   colorFilters: Set<ColorFilter>;
@@ -28,6 +29,7 @@ type ColorActions = {
 };
 
 const initialState: ColorState = {
+  colors,
   selectedColor: null,
   favoriteColors: [],
   colorFilters: new Set<ColorFilter>(),
@@ -83,7 +85,7 @@ const colorStore = create<ColorState & ColorActions>()(
           }),
         filterColors: () =>
           set((state) => {
-            let filteredColors = [...colors];
+            let filteredColors = [...state.colors];
             filteredColors = applyColorSort(filteredColors, state.colorFilters);
             filteredColors = applyColorFilter(
               filteredColors,
@@ -115,6 +117,7 @@ const colorStore = create<ColorState & ColorActions>()(
   )
 );
 
+export const useColors = () => colorStore((state) => state.colors);
 export const useSelectedColor = () =>
   colorStore((state) => state.selectedColor);
 export const useFavoriteColors = () =>

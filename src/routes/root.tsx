@@ -1,9 +1,9 @@
-import Aside from './components/Aside';
-import PaletteList from './components/PaletteList';
+import Aside from '@/components/Aside';
+import PaletteList from '@/components/PaletteList';
 
-import { useSelectedColor } from './store/color';
+import { useSelectedColor } from '@/store/color';
 
-export default function App() {
+export default function Root() {
   const selectedColor = useSelectedColor();
 
   return (

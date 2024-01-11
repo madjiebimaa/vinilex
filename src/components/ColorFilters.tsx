@@ -20,6 +20,10 @@ export default function ColorFilters() {
   };
 
   const handleQueryKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+
     if (event.key === 'Backspace') {
       colorActions.filterColors();
     }
@@ -38,12 +42,12 @@ export default function ColorFilters() {
         />
       </div>
       <div className="flex items-center md:justify-between gap-2 sm w-full">
-        <div className="flex justify-center items-center w-fit p-1 rounded-full shadow-md bg-slate-100">
+        <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
           <Button
             type="button"
             variant="secondary"
             size="icon"
-            className="rounded-full bg-white hover:brightness-90 transition-all duration-300"
+            className="rounded-full hover:brightness-90 transition-all duration-300"
             onClick={handleFavoriteFilterClick}
           >
             <Heart

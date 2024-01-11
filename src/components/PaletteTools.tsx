@@ -1,9 +1,10 @@
-import { Brush, Check, Copy, LucideIcon } from 'lucide-react';
+import { Brush, Check, Copy, Link, LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { Color } from '@/lib/types';
 import { useColorActions } from '@/store/color';
 
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 
 interface PaletteToolsProps {
@@ -13,6 +14,7 @@ interface PaletteToolsProps {
 export default function PaletteTools({ color }: PaletteToolsProps) {
   const [isCopied, setIsCopied] = useState(false);
   const colorActions = useColorActions();
+  const navigate = useNavigate();
 
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(color.hexCode);
@@ -34,10 +36,15 @@ export default function PaletteTools({ color }: PaletteToolsProps) {
       Icon: Brush,
       onClick: () => colorActions.selectColor(color),
     },
+    {
+      Icon: Link,
+      // onClick: () => {},
+      onClick: () => navigate(`/colors/${color.id}`),
+    },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-1 p-1 rounded-full shadow-md bg-slate-100 opacity-0 transition-opacity duration-100 ease-in group-hover/palette:opacity-100 group-hover/palette:transition-opacity group-hover/palette:duration-1000 group-hover/palette:ease-out">
+    <div className="grid grid-cols-3 gap-1 p-1 rounded-full shadow-md bg-slate-100 opacity-0 transition-opacity duration-100 ease-in group-hover/palette:opacity-100 group-hover/palette:transition-opacity group-hover/palette:duration-1000 group-hover/palette:ease-out">
       {tools.map(({ Icon, onClick }) => (
         <Button
           key={`${color.id}_${Icon.displayName}`}

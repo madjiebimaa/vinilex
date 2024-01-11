@@ -16,26 +16,30 @@ export default function Aside() {
           transforming both interior and exterior spaces.
         </p>
         <div className="flex items-center space-x-2">
-          <a
-            href="https://github.com/madjiebimaa/vinilex"
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'secondary', size: 'icon' }),
-              'rounded-full shadow-md hover:brightness-90 transition-all duration-300'
-            )}
-          >
-            <Github className="shrink-0 h-4 w-4" />
-          </a>
-          <a
-            href="https://github.com/madjiebimaa"
-            target="_blank"
-            className={cn(
-              buttonVariants({ variant: 'secondary', size: 'sm' }),
-              'h-10 rounded-full shadow-md hover:brightness-90 transition-all duration-300'
-            )}
-          >
-            Become a sponsor
-          </a>
+          <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
+            <a
+              href="https://github.com/madjiebimaa/vinilex"
+              target="_blank"
+              className={cn(
+                buttonVariants({ variant: 'secondary', size: 'icon' }),
+                'rounded-full hover:brightness-90 transition-all duration-300'
+              )}
+            >
+              <Github className="shrink-0 h-4 w-4" />
+            </a>
+          </div>
+          <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
+            <a
+              href="https://github.com/madjiebimaa"
+              target="_blank"
+              className={cn(
+                buttonVariants({ variant: 'secondary', size: 'sm' }),
+                'h-10 rounded-full hover:brightness-90 transition-all duration-300'
+              )}
+            >
+              Become a sponsor
+            </a>
+          </div>
         </div>
       </header>
       <ColorFilters />

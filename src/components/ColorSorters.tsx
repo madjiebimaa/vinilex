@@ -63,14 +63,14 @@ export default function ColorSorters() {
   ];
 
   return (
-    <div className="flex justify-center items-center gap-1 w-fit p-1 rounded-full shadow-md bg-slate-100">
+    <div className="flex justify-center items-center gap-1 p-1 rounded-full shadow-md bg-slate-100">
       {sorters.map(({ label, Icon, onClick }, index) => (
         <Button
           key={label}
           type="button"
           variant="secondary"
           size="icon"
-          className={`rounded-full bg-white hover:brightness-90 transition-all duration-300 ${
+          className={`rounded-full hover:brightness-90 transition-all duration-300 ${
             colorFilters.has(label)
               ? 'text-white bg-red-600 hover:bg-red-600'
               : ''
