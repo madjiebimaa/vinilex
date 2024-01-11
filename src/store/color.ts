@@ -23,6 +23,7 @@ type ColorActions = {
     toggleColorToFavorite: (id: Color['id']) => void;
     setColorFilters: (filter: ColorFilter) => void;
     filterColors: () => void;
+    searchColors: (name: Color['name']) => void;
   };
 };
 
@@ -92,6 +93,14 @@ const colorStore = create<ColorState & ColorActions>()(
 
             return {
               filteredColors,
+            };
+          }),
+        searchColors: (name) =>
+          set((state) => {
+            return {
+              filteredColors: state.filteredColors.filter((color) =>
+                color.name.toLowerCase().includes(name)
+              ),
             };
           }),
       },

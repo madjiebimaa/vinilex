@@ -1,7 +1,8 @@
 import { Github } from 'lucide-react';
 
+import { cn } from '@/lib/utils';
 import ColorFilters from './ColorFilters';
-import { Button } from './ui/button';
+import { buttonVariants } from './ui/button';
 
 export default function Aside() {
   return (
@@ -15,24 +16,26 @@ export default function Aside() {
           transforming both interior and exterior spaces.
         </p>
         <div className="flex items-center space-x-2">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="rounded-full shadow-md hover:brightness-90 transition-all duration-300"
+          <a
+            href="https://github.com/madjiebimaa/vinilex"
+            target="_blank"
+            className={cn(
+              buttonVariants({ variant: 'secondary', size: 'icon' }),
+              'rounded-full shadow-md hover:brightness-90 transition-all duration-300'
+            )}
           >
-            <a href="https://github.com/madjiebimaa/vinilex" target="_blank">
-              <Github className="shrink-0 h-4 w-4" />
-            </a>
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            className="h-10 rounded-full shadow-md hover:brightness-90 transition-all duration-300"
+            <Github className="shrink-0 h-4 w-4" />
+          </a>
+          <a
+            href="https://github.com/madjiebimaa"
+            target="_blank"
+            className={cn(
+              buttonVariants({ variant: 'secondary', size: 'sm' }),
+              'h-10 rounded-full shadow-md hover:brightness-90 transition-all duration-300'
+            )}
           >
-            <a href="https://github.com/madjiebimaa" target="_blank">
-              Become a sponsor
-            </a>
-          </Button>
+            Become a sponsor
+          </a>
         </div>
       </header>
       <ColorFilters />

@@ -67,6 +67,7 @@ export default function ColorSorters() {
       {sorters.map(({ label, Icon, onClick }, index) => (
         <Button
           key={label}
+          type="button"
           variant="secondary"
           size="icon"
           className={`rounded-full bg-white hover:brightness-90 transition-all duration-300 ${
