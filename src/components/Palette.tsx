@@ -1,7 +1,11 @@
 import { Heart } from 'lucide-react';
 
 import { Color } from '@/lib/types';
-import { useColorActions, useFavoriteColors } from '@/store/color';
+import {
+  useColorActions,
+  useColorFilters,
+  useFavoriteColors,
+} from '@/store/color';
 
 import PaletteTools from './PaletteTools';
 import { Button } from './ui/button';
@@ -13,8 +17,16 @@ interface PaletteProps {
 export default function Palette({ color }: PaletteProps) {
   const favoriteColors = useFavoriteColors();
   const colorActions = useColorActions();
+  const colorFilters = useColorFilters();
 
   const isFavoriteColor = favoriteColors.includes(color.id);
+
+  const handleHeartClick = () => {
+    colorActions.toggleColorToFavorite(color.id);
+    if (colorFilters.has('favorite')) {
+      colorActions.filterColors();
+    }
+  };
 
   return (
     <div className="group/palette relative min-w-[130px] max-w-[200px] mx-auto">
@@ -23,7 +35,7 @@ export default function Palette({ color }: PaletteProps) {
           variant="ghost"
           size="icon"
           className="absolute top-0 right-0 h-auto w-auto hover:bg-transparent dark:hover:bg-transparent rounded-full opacity-0 transition-opacity duration-100 ease-in group-hover/palette:opacity-100 group-hover/palette:transition-opacity group-hover/palette:duration-300 group-hover/palette:ease-out"
-          onClick={() => colorActions.toggleColorToFavorite(color.id)}
+          onClick={handleHeartClick}
         >
           <Heart
             className={`shrink-0 h-4 w-4 ${

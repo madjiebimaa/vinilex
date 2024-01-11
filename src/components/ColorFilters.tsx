@@ -2,13 +2,11 @@ import { Heart, Search } from 'lucide-react';
 
 import { useColorActions, useColorFilters } from '@/store/color';
 
-import { useState } from 'react';
 import ColorSorters from './ColorSorters';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 export default function ColorFilters() {
-  const [query, setQuery] = useState('');
   const colorFilters = useColorFilters();
   const colorActions = useColorActions();
 
@@ -18,14 +16,11 @@ export default function ColorFilters() {
   };
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    colorActions.searchColors(event.target.value);
   };
 
   const handleQueryKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      colorActions.searchColors(query);
-    } else if (event.key === 'Backspace') {
+    if (event.key === 'Backspace') {
       colorActions.filterColors();
     }
   };
@@ -36,7 +31,6 @@ export default function ColorFilters() {
         <Search className="absolute left-4 top-4 h-4 w-4 text-slate-500" />
         <Input
           type="text"
-          value={query}
           onChange={handleQueryChange}
           onKeyDown={handleQueryKeyDown}
           placeholder="Search"
