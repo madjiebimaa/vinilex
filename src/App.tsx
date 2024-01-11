@@ -11,7 +11,7 @@ export default function App() {
       style={{
         backgroundColor: selectedColor ? selectedColor.hexCode : 'white',
       }}
-      className="flex flex-col md:flex-row"
+      className="flex flex-col md:flex-row min-h-screen"
     >
       <Aside />
       <PaletteList />

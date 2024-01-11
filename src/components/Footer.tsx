@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="grid place-content-center p-4">
+    <footer className="grid place-content-center p-4 mt-auto">
       <p className="font-mono text-sm md:text-base text-center">
         Colors from{' '}
         <a

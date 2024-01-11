@@ -17,7 +17,7 @@ export default function Palette({ color }: PaletteProps) {
   const isFavoriteColor = favoriteColors.includes(color.id);
 
   return (
-    <div className="group/palette relative gap-2">
+    <div className="group/palette relative min-w-[130px] max-w-[200px] mx-auto">
       <div className="flex flex-col justify-center items-center gap-2">
         <Button
           variant="ghost"
