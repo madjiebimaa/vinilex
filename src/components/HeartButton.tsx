@@ -42,7 +42,7 @@ export const HeartButton = React.forwardRef<
       <Heart
         className={`shrink-0 h-4 w-4 ${
           isFavoriteColor ? 'text-red-600 fill-red-600' : 'fill-white'
-        }`}
+        } transition-colors duration-300`}
       />
     </Button>
   );

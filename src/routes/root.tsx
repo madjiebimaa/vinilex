@@ -17,7 +17,7 @@ export default function Root() {
           : '',
         backgroundColor: selectedColor ? selectedColor.hexCode : 'white',
       }}
-      className="flex flex-col md:flex-row min-h-screen"
+      className="flex flex-col md:flex-row min-h-screen transition-colors duration-500"
     >
       <Aside />
       <PaletteList />

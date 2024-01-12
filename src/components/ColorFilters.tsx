@@ -41,7 +41,7 @@ export default function ColorFilters() {
           onChange={handleQueryChange}
           onKeyDown={handleQueryKeyDown}
           placeholder="Search"
-          className="pl-10 rounded-full border-none"
+          className="pl-10 rounded-full border-none text-black"
         />
       </div>
       <div className="flex items-center md:justify-between gap-2 sm w-full">
