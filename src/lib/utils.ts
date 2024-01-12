@@ -109,3 +109,12 @@ export function getTopNClosestColors(
     .sort((colorA, colorB) => colorA.distance - colorB.distance)
     .slice(0, n);
 }
+
+export const toGrayScale = (rgb: RGB) => {
+  const { r, g, b } = rgb;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+export const getOppositeContrast = (grayScale: number): '#000' | '#FFF' => {
+  return grayScale > 128 ? '#000' : '#FFF';
+};

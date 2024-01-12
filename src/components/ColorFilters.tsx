@@ -22,6 +22,9 @@ export default function ColorFilters() {
   const handleQueryKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
+
+      const element = event.target as HTMLInputElement;
+      element.blur();
     }
 
     if (event.key === 'Backspace') {
