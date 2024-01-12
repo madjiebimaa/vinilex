@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { Color, ColorFilter, RGB, TextHexCode } from './types';
+import { Color, ColorFilter, RGB, TextHexCode, XYZ } from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -84,11 +84,57 @@ export function hexCodeToRGB(hexCode: string) {
   return { r, g, b };
 }
 
+export function normalizeRGB({ r, g, b }: RGB) {
+  return { nr: r / 255, ng: g / 255, nb: b / 255 };
+}
+
+export function RGBToXYZ(rgb: RGB) {
+  const { nr, ng, nb } = normalizeRGB(rgb);
+
+  const x = 0.4124564 * nr + 0.3575761 * ng + 0.1804375 * nb;
+  const y = 0.2126729 * nr + 0.7151522 * ng + 0.072175 * nb;
+  const z = 0.0193339 * nr + 0.119192 * ng + 0.9503041 * nb;
+
+  return { x, y, z };
+}
+
+export function normalizeXYZ({ x, y, z }: XYZ) {
+  return { nx: x / 0.9642, ny: y / 1.0, nz: z / 0.8249 };
+}
+
+export function XYZValueToLabColorSpace(normalizeValue: number) {
+  return normalizeValue > 0.008856
+    ? Math.pow(normalizeValue, 1 / 3)
+    : (903.3 * normalizeValue + 16) / 116;
+}
+
+export function XYZToLab(xyz: XYZ) {
+  const { nx, ny, nz } = normalizeXYZ(xyz);
+
+  const fx = XYZValueToLabColorSpace(nx);
+  const fy = XYZValueToLabColorSpace(ny);
+  const fz = XYZValueToLabColorSpace(nz);
+
+  const L = Math.max(0, 116 * fy - 16);
+  const a = (fx - fy) * 500;
+  const b = (fy - fz) * 200;
+
+  return { L, a, b };
+}
+
+export function RGBToLab(rgb: RGB) {
+  const xyz = RGBToXYZ(rgb);
+  return XYZToLab(xyz);
+}
+
 export function distance(rgb: RGB, comparedRgb: RGB) {
+  const { L, a, b } = RGBToLab(rgb);
+  const { L: comparedL, a: comparedA, b: comparedB } = RGBToLab(comparedRgb);
+
   return Math.sqrt(
-    Math.pow(rgb.r - comparedRgb.r, 2) -
-      Math.pow(rgb.g - comparedRgb.g, 2) -
-      Math.pow(rgb.b - comparedRgb.b, 2)
+    Math.pow(L - comparedL, 2) +
+      Math.pow(a - comparedA, 2) +
+      Math.pow(b - comparedB, 2)
   );
 }
 
@@ -110,8 +156,7 @@ export function getTopNClosestColors(
     .slice(0, n);
 }
 
-export const toGrayScale = (rgb: RGB) => {
-  const { r, g, b } = rgb;
+export const toGrayScale = ({ r, g, b }: RGB) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 
