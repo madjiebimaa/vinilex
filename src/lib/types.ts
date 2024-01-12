@@ -17,3 +17,5 @@ export type RGB = {
   g: number;
   b: number;
 };
+
+export type TextHexCode = '#000' | '#FFF';

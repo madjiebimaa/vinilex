@@ -1,18 +1,22 @@
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
 import {
   applyColorFilter,
   applyColorSort,
   getColorSortOpponents,
+  getOppositeContrast,
+  hexCodeToRGB,
   isColorSort,
+  toGrayScale,
 } from '@/lib/utils';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
 
 import colors from '../data/colors.json';
-import { Color, ColorFilter } from './../lib/types';
+import { Color, ColorFilter, TextHexCode } from './../lib/types';
 
 type ColorState = {
   colors: Color[];
-  selectedColor: Color | null;
+  selectedColor: { text: { hexCode: TextHexCode }; background: Color } | null;
   favoriteColors: Color['id'][];
   colorFilters: Set<ColorFilter>;
   filteredColors: Color[];
@@ -43,14 +47,24 @@ const colorStore = create<ColorState & ColorActions>()(
       actions: {
         selectColor: (color) =>
           set((state) => {
-            if (state.selectedColor && state.selectedColor.id === color.id) {
+            if (
+              state.selectedColor &&
+              state.selectedColor.background.id === color.id
+            ) {
               return {
                 selectedColor: null,
               };
             }
 
             return {
-              selectedColor: color,
+              selectedColor: {
+                text: {
+                  hexCode: getOppositeContrast(
+                    toGrayScale(hexCodeToRGB(color.hexCode))
+                  ),
+                },
+                background: color,
+              },
             };
           }),
         toggleColorToFavorite: (id) =>

@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { Color, ColorFilter, RGB } from './types';
+import { Color, ColorFilter, RGB, TextHexCode } from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -115,6 +115,6 @@ export const toGrayScale = (rgb: RGB) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 
-export const getOppositeContrast = (grayScale: number): '#000' | '#FFF' => {
+export const getOppositeContrast = (grayScale: number): TextHexCode => {
   return grayScale > 128 ? '#000' : '#FFF';
 };
