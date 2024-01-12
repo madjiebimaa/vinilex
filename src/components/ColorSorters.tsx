@@ -6,10 +6,10 @@ import {
   LucideIcon,
 } from 'lucide-react';
 
+import { Button } from './ui/button';
+
 import { ColorFilter } from '@/lib/types';
 import { useColorActions, useColorFilters } from '@/store/color';
-
-import { Button } from './ui/button';
 
 export default function ColorSorters() {
   const colorFilters = useColorFilters();

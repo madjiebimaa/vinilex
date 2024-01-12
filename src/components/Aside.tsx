@@ -1,8 +1,9 @@
 import { Github } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
 import ColorFilters from './ColorFilters';
 import { buttonVariants } from './ui/button';
+
+import { cn } from '@/lib/utils';
 
 export default function Aside() {
   return (

@@ -1,10 +1,10 @@
 import { Heart, Search } from 'lucide-react';
 
-import { useColorActions, useColorFilters } from '@/store/color';
-
 import ColorSorters from './ColorSorters';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+
+import { useColorActions, useColorFilters } from '@/store/color';
 
 export default function ColorFilters() {
   const colorFilters = useColorFilters();

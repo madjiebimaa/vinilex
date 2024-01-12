@@ -1,7 +1,7 @@
-import { useFilteredColors } from '@/store/color';
-
 import Footer from './Footer';
 import Palette from './Palette';
+
+import { useFilteredColors } from '@/store/color';
 
 export default function PaletteList() {
   const colors = useFilteredColors();
