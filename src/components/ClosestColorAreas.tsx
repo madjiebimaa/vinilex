@@ -16,10 +16,16 @@ export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
   const closestColors = getTopNClosestColors(color, colors, numberOfBubbles);
 
   const grid = generateGrid(10, bubbleSizes, numberOfBubbles);
-  const bubbles = grid.map((item, index) => ({
-    item,
-    ...closestColors[index],
-  }));
+  const bubbles = grid
+    .sort((a, b) => {
+      const sizeA = a.gridRowEnd - a.gridRowStart;
+      const sizeB = b.gridRowEnd - b.gridRowStart;
+      return sizeA - sizeB;
+    })
+    .map((item, index) => ({
+      item,
+      ...closestColors[index],
+    }));
 
   return (
     <section className="grid grid-rows-[repeat(10,_20px)] grid-cols-[repeat(10,_20px)] place-content-center place-items-center gap-2 w-fit">
