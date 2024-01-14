@@ -12,9 +12,10 @@ export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
   const colors = useColors();
 
   const numberOfBubbles = 10;
+  const bubbleSizes = [4, 3, 2, ...Array(numberOfBubbles - 3).fill(1)];
   const closestColors = getTopNClosestColors(color, colors, numberOfBubbles);
 
-  const grid = generateGrid(10, 2, numberOfBubbles);
+  const grid = generateGrid(10, bubbleSizes, numberOfBubbles);
   const bubbles = grid.map((item, index) => ({
     item,
     ...closestColors[index],

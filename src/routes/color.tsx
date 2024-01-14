@@ -47,7 +47,7 @@ export default function Color() {
       ),
     },
     {
-      Bubble: <p {...bubbleLabelStyles}>{color.hexCode}</p>,
+      Bubble: <p className={cn(bubbleLabelStyles.className, "w-[100px]")} >{color.hexCode}</p>,
     },
     {
       Bubble: <CopyButton {...bubbleButtonStyles} text={color.hexCode} />,

@@ -236,14 +236,14 @@ function isItemOverlap(item: MatrixItem | null, matrix: Matrix) {
   return isOverlap;
 }
 
-function generateMatrix(size: number, itemSize: number, numberOfItems: number) {
+function generateMatrix(size: number, itemSizes: number[], numberOfItems: number) {
   let matrix = generateEmptyMatrix(size);
 
   for (let index = 0; index < numberOfItems; index++) {
     let item: MatrixItem | null = null;
 
     while (isItemOverlap(item, matrix)) {
-      const candidateItem = generateItem(itemSize, matrix.length);
+      const candidateItem = generateItem(itemSizes[index], matrix.length);
       item = candidateItem;
     }
 
@@ -271,8 +271,12 @@ function removeItemFromMatrix(item: MatrixItem, matrix: Matrix) {
   return matrix;
 }
 
-export function generateGrid(size: number, itemSize: number, numberOfItems: number) {
-  let matrix = generateMatrix(size, itemSize,numberOfItems);
+export function generateGrid(
+  size: number,
+  itemSizes: number[],
+  numberOfItems: number
+) {
+  let matrix = generateMatrix(size, itemSizes, numberOfItems);
   const grid: Grid = [];
 
   for (let row = 0; row < matrix.length; row++) {
