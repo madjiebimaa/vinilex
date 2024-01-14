@@ -26,10 +26,14 @@ export type XYZ = {
 
 export type TextHexCode = '#000' | '#FFF';
 
-export type Grid = {
+export type MatrixItem = {
+  matrix: number[][];
+  rowStartIndex: number;
+  columnStartIndex: number;
   size: number;
-  items: GridItem[];
 };
+
+export type Matrix = number[][];
 
 export type GridItem = {
   gridRowStart: number;
@@ -37,3 +41,5 @@ export type GridItem = {
   gridColumnStart: number;
   gridColumnEnd: number;
 };
+
+export type Grid = GridItem[];

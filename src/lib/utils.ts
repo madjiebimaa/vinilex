@@ -5,7 +5,8 @@ import {
   Color,
   ColorFilter,
   Grid,
-  GridItem,
+  Matrix,
+  MatrixItem,
   RGB,
   TextHexCode,
   XYZ,
@@ -176,79 +177,127 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function between(num: number, min: number, max: number) {
-  return num >= min && num <= max;
+function generateEmptyMatrix(size: number) {
+  return Array(size)
+    .fill(null)
+    .map(() => Array(size).fill(0));
 }
 
-function generateGridItem(gridSize: number, itemSize: number): GridItem {
-  const gridLines = gridSize + 1;
-  const lineStart = 1;
-  const lineEnd = Math.floor(gridLines / 2);
+function insertItemIntoMatrix(
+  { rowStartIndex, columnStartIndex, size }: MatrixItem,
+  matrix: Matrix
+) {
+  for (let row = rowStartIndex; row < rowStartIndex + size; row++) {
+    for (let col = columnStartIndex; col < columnStartIndex + size; col++) {
+      matrix[row][col] = size;
+    }
+  }
 
-  const gridRowStart = getRandomInt(lineStart, lineEnd);
-  const gridRowEnd = gridRowStart + itemSize;
-
-  const gridColumnStart = getRandomInt(lineStart, lineEnd);
-  const gridColumnEnd = gridColumnStart + itemSize;
-
-  return { gridRowStart, gridRowEnd, gridColumnStart, gridColumnEnd };
+  return matrix;
 }
 
-function isGridItem(obj: unknown): obj is GridItem {
-  return (
-    obj !== null &&
-    typeof obj === 'object' &&
-    'gridRowStart' in obj &&
-    'gridRowEnd' in obj &&
-    'gridColumnStart' in obj &&
-    'gridColumnEnd' in obj
+function generateItem(size: number, matrixSize: number): MatrixItem {
+  const matrix = generateEmptyMatrix(matrixSize);
+
+  const rowStartIndex = getRandomInt(0, matrixSize - size);
+  const columnStartIndex = getRandomInt(0, matrixSize - size);
+
+  const insertedMatrix = insertItemIntoMatrix(
+    { rowStartIndex, columnStartIndex, size, matrix },
+    matrix
   );
+
+  return { rowStartIndex, columnStartIndex, size, matrix: insertedMatrix };
 }
 
-function isGridItemOverlap(gridItems: GridItem[], item: GridItem) {
-  return Boolean(
-    gridItems.find(
-      (gridItem) =>
-        between(
-          item.gridRowStart,
-          gridItem.gridRowStart,
-          gridItem.gridRowEnd
-        ) ||
-        between(
-          item.gridColumnEnd,
-          gridItem.gridColumnStart,
-          gridItem.gridColumnEnd
-        ) ||
-        between(
-          item.gridColumnStart,
-          gridItem.gridColumnStart,
-          gridItem.gridColumnEnd
-        ) ||
-        between(
-          item.gridColumnEnd,
-          gridItem.gridColumnStart,
-          gridItem.gridColumnEnd
-        )
-    )
-  );
-}
+function isItemOverlap(item: MatrixItem | null, matrix: Matrix) {
+  if (item === null) {
+    return true;
+  }
 
-export function generateGrid(size: number, numberOfItems: number) {
-  const grid: Grid = { size, items: [] };
+  let isOverlap = false;
 
-  for (let index = 0; index < numberOfItems; index++) {
-    let item: GridItem | null = null;
-    while (!isGridItem(item)) {
-      const gridLines = grid.size + 1;
-
-      const itemSize = Math.floor(gridLines / 2) - index - 1;
-      const candidateItem = generateGridItem(grid.size, itemSize);
-      if (!isGridItemOverlap(grid.items, candidateItem)) {
-        item = candidateItem;
+  for (
+    let row = item.rowStartIndex;
+    row < item.rowStartIndex + item.size;
+    row++
+  ) {
+    for (
+      let col = item.columnStartIndex;
+      col < item.columnStartIndex + item.size;
+      col++
+    ) {
+      if (matrix[row][col] !== 0) {
+        isOverlap = true;
       }
     }
+  }
 
-    grid.items.push(item);
+  return isOverlap;
+}
+
+function generateMatrix(size: number, itemSize: number, numberOfItems: number) {
+  let matrix = generateEmptyMatrix(size);
+
+  for (let index = 0; index < numberOfItems; index++) {
+    let item: MatrixItem | null = null;
+
+    while (isItemOverlap(item, matrix)) {
+      const candidateItem = generateItem(itemSize, matrix.length);
+      item = candidateItem;
+    }
+
+    matrix = insertItemIntoMatrix(item!, matrix);
+  }
+
+  return matrix;
+}
+
+function removeItemFromMatrix(item: MatrixItem, matrix: Matrix) {
+  for (
+    let row = item.rowStartIndex;
+    row < item.rowStartIndex + item.size;
+    row++
+  ) {
+    for (
+      let col = item.columnStartIndex;
+      col < item.columnStartIndex + item.size;
+      col++
+    ) {
+      matrix[row][col] = 0;
+    }
+  }
+
+  return matrix;
+}
+
+export function generateGrid(size: number, itemSize: number, numberOfItems: number) {
+  let matrix = generateMatrix(size, itemSize,numberOfItems);
+  const grid: Grid = [];
+
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col] !== 0) {
+        const size = matrix[row][col];
+
+        const gridRowStart = row + 1;
+        const gridRowEnd = row + size + 1;
+        const gridColumnStart = col + 1;
+        const gridColumnEnd = col + size + 1;
+
+        matrix = removeItemFromMatrix(
+          {
+            rowStartIndex: row,
+            columnStartIndex: col,
+            size,
+            matrix: generateEmptyMatrix(matrix.length),
+          },
+          matrix
+        );
+
+        grid.push({ gridRowStart, gridRowEnd, gridColumnStart, gridColumnEnd });
+      }
+    }
   }
 
   return grid;

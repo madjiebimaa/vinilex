@@ -11,11 +11,11 @@ interface ClosestColorAreasProps {
 export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
   const colors = useColors();
 
-  const closestColors = getTopNClosestColors(color, colors);
+  const numberOfBubbles = 10;
+  const closestColors = getTopNClosestColors(color, colors, numberOfBubbles);
 
-  const numberOfBubbles = 1;
-  const grid = generateGrid(10, numberOfBubbles);
-  const bubbles = grid.items.map((item, index) => ({
+  const grid = generateGrid(10, 2, numberOfBubbles);
+  const bubbles = grid.map((item, index) => ({
     item,
     ...closestColors[index],
   }));
