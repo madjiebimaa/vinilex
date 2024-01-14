@@ -1,7 +1,15 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { Color, ColorFilter, RGB, TextHexCode, XYZ } from './types';
+import {
+  Color,
+  ColorFilter,
+  Grid,
+  GridItem,
+  RGB,
+  TextHexCode,
+  XYZ,
+} from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -73,7 +81,7 @@ export function applyColorSort(
   return filteredColors;
 }
 
-export function hexCodeToRGB(hexCode: string) {
+function hexCodeToRGB(hexCode: string) {
   const formattedHexCode = hexCode.replace('#', '');
   const baseNumber = 16;
 
@@ -84,11 +92,11 @@ export function hexCodeToRGB(hexCode: string) {
   return { r, g, b };
 }
 
-export function normalizeRGB({ r, g, b }: RGB) {
+function normalizeRGB({ r, g, b }: RGB) {
   return { nr: r / 255, ng: g / 255, nb: b / 255 };
 }
 
-export function RGBToXYZ(rgb: RGB) {
+function RGBToXYZ(rgb: RGB) {
   const { nr, ng, nb } = normalizeRGB(rgb);
 
   const x = 0.4124564 * nr + 0.3575761 * ng + 0.1804375 * nb;
@@ -98,17 +106,17 @@ export function RGBToXYZ(rgb: RGB) {
   return { x, y, z };
 }
 
-export function normalizeXYZ({ x, y, z }: XYZ) {
+function normalizeXYZ({ x, y, z }: XYZ) {
   return { nx: x / 0.9642, ny: y / 1.0, nz: z / 0.8249 };
 }
 
-export function XYZValueToLabColorSpace(normalizeValue: number) {
+function XYZValueToLabColorSpace(normalizeValue: number) {
   return normalizeValue > 0.008856
     ? Math.pow(normalizeValue, 1 / 3)
     : (903.3 * normalizeValue + 16) / 116;
 }
 
-export function XYZToLab(xyz: XYZ) {
+function XYZToLab(xyz: XYZ) {
   const { nx, ny, nz } = normalizeXYZ(xyz);
 
   const fx = XYZValueToLabColorSpace(nx);
@@ -122,12 +130,12 @@ export function XYZToLab(xyz: XYZ) {
   return { L, a, b };
 }
 
-export function RGBToLab(rgb: RGB) {
+function RGBToLab(rgb: RGB) {
   const xyz = RGBToXYZ(rgb);
   return XYZToLab(xyz);
 }
 
-export function distance(rgb: RGB, comparedRgb: RGB) {
+function colorDistance(rgb: RGB, comparedRgb: RGB) {
   const { L, a, b } = RGBToLab(rgb);
   const { L: comparedL, a: comparedA, b: comparedB } = RGBToLab(comparedRgb);
 
@@ -147,7 +155,7 @@ export function getTopNClosestColors(
     .filter((comparedColor) => comparedColor.id !== color.id)
     .map((comparedColor) => ({
       ...comparedColor,
-      distance: distance(
+      distance: colorDistance(
         hexCodeToRGB(color.hexCode),
         hexCodeToRGB(comparedColor.hexCode)
       ),
@@ -156,10 +164,92 @@ export function getTopNClosestColors(
     .slice(0, n);
 }
 
-export const toGrayScale = ({ r, g, b }: RGB) => {
+export function toGrayScale({ r, g, b }: RGB) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-};
+}
 
-export const getOppositeContrast = (grayScale: number): TextHexCode => {
-  return grayScale > 128 ? '#000' : '#FFF';
-};
+export function getOppositeContrast(hexCode: string): TextHexCode {
+  return toGrayScale(hexCodeToRGB(hexCode)) > 128 ? '#000' : '#FFF';
+}
+
+function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function between(num: number, min: number, max: number) {
+  return num >= min && num <= max;
+}
+
+function generateGridItem(gridSize: number, itemSize: number): GridItem {
+  const gridLines = gridSize + 1;
+  const lineStart = 1;
+  const lineEnd = Math.floor(gridLines / 2);
+
+  const gridRowStart = getRandomInt(lineStart, lineEnd);
+  const gridRowEnd = gridRowStart + itemSize;
+
+  const gridColumnStart = getRandomInt(lineStart, lineEnd);
+  const gridColumnEnd = gridColumnStart + itemSize;
+
+  return { gridRowStart, gridRowEnd, gridColumnStart, gridColumnEnd };
+}
+
+function isGridItem(obj: unknown): obj is GridItem {
+  return (
+    obj !== null &&
+    typeof obj === 'object' &&
+    'gridRowStart' in obj &&
+    'gridRowEnd' in obj &&
+    'gridColumnStart' in obj &&
+    'gridColumnEnd' in obj
+  );
+}
+
+function isGridItemOverlap(gridItems: GridItem[], item: GridItem) {
+  return Boolean(
+    gridItems.find(
+      (gridItem) =>
+        between(
+          item.gridRowStart,
+          gridItem.gridRowStart,
+          gridItem.gridRowEnd
+        ) ||
+        between(
+          item.gridColumnEnd,
+          gridItem.gridColumnStart,
+          gridItem.gridColumnEnd
+        ) ||
+        between(
+          item.gridColumnStart,
+          gridItem.gridColumnStart,
+          gridItem.gridColumnEnd
+        ) ||
+        between(
+          item.gridColumnEnd,
+          gridItem.gridColumnStart,
+          gridItem.gridColumnEnd
+        )
+    )
+  );
+}
+
+export function generateGrid(size: number, numberOfItems: number) {
+  const grid: Grid = { size, items: [] };
+
+  for (let index = 0; index < numberOfItems; index++) {
+    let item: GridItem | null = null;
+    while (!isGridItem(item)) {
+      const gridLines = grid.size + 1;
+
+      const itemSize = Math.floor(gridLines / 2) - index - 1;
+      const candidateItem = generateGridItem(grid.size, itemSize);
+      if (!isGridItemOverlap(grid.items, candidateItem)) {
+        item = candidateItem;
+      }
+    }
+
+    grid.items.push(item);
+  }
+
+  return grid;
+}

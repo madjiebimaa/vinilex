@@ -25,3 +25,15 @@ export type XYZ = {
 };
 
 export type TextHexCode = '#000' | '#FFF';
+
+export type Grid = {
+  size: number;
+  items: GridItem[];
+};
+
+export type GridItem = {
+  gridRowStart: number;
+  gridRowEnd: number;
+  gridColumnStart: number;
+  gridColumnEnd: number;
+};

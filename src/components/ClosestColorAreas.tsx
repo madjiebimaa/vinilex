@@ -1,10 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
 import { Color } from '@/lib/types';
-import { getTopNClosestColors } from '@/lib/utils';
+import { generateGrid, getTopNClosestColors } from '@/lib/utils';
 import { useColors } from '@/store/color';
-
-const areas: string[] = ['one', 'two', 'three', 'four', 'five'];
 
 interface ClosestColorAreasProps {
   color: Color;
@@ -15,33 +13,24 @@ export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
 
   const closestColors = getTopNClosestColors(color, colors);
 
-  const colorAreas = areas.slice(0, 5).map((area, index) => ({
-    area,
+  const numberOfBubbles = 1;
+  const grid = generateGrid(10, numberOfBubbles);
+  const bubbles = grid.items.map((item, index) => ({
+    item,
     ...closestColors[index],
   }));
 
   return (
-    <section
-      style={{
-        gridTemplateAreas: `
-        "one one one one one two   two   two  five c"
-        "one one one one one two   two   two  b    c"
-        "one one one one one two   two   two  b    c"
-        "one one one one one three three four b    c"
-        "one one one one one three three a    b    c"
-      `,
-      }}
-      className="grid grid-cols-[repeat(10,_20px)] grid-rows-[repeat(5,_20px)] gap-2"
-    >
-      {colorAreas.map((colorArea) => (
+    <section className="grid grid-rows-[repeat(10,_20px)] grid-cols-[repeat(10,_20px)] place-content-center place-items-center gap-2 w-fit">
+      {bubbles.map((bubble) => (
         <NavLink
-          key={colorArea.id}
-          to={`/colors/${colorArea.id}`}
+          key={bubble.id}
+          to={`/colors/${bubble.id}`}
           style={{
-            gridArea: colorArea.area,
-            backgroundColor: colorArea.hexCode,
+            ...bubble.item,
+            backgroundColor: bubble.hexCode,
           }}
-          className="rounded-full shadow-md"
+          className="w-full h-full rounded-full shadow-md"
         />
       ))}
     </section>

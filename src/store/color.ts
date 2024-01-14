@@ -6,9 +6,7 @@ import {
   applyColorSort,
   getColorSortOpponents,
   getOppositeContrast,
-  hexCodeToRGB,
   isColorSort,
-  toGrayScale,
 } from '@/lib/utils';
 
 import colors from '../data/colors.json';
@@ -59,9 +57,7 @@ const colorStore = create<ColorState & ColorActions>()(
             return {
               selectedColor: {
                 text: {
-                  hexCode: getOppositeContrast(
-                    toGrayScale(hexCodeToRGB(color.hexCode))
-                  ),
+                  hexCode: getOppositeContrast(color.hexCode),
                 },
                 background: color,
               },
