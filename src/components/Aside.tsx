@@ -5,6 +5,7 @@ import { buttonVariants } from './ui/button';
 
 import { cn } from '@/lib/utils';
 import { NavLink } from 'react-router-dom';
+import BubbleContainer from './BubbleContainer';
 
 export default function Aside() {
   return (
@@ -18,7 +19,7 @@ export default function Aside() {
           transforming both interior and exterior spaces.
         </p>
         <div className="flex items-center space-x-2">
-          <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
+          <BubbleContainer>
             <a
               href="https://github.com/madjiebimaa/vinilex"
               target="_blank"
@@ -29,8 +30,8 @@ export default function Aside() {
             >
               <Github className="shrink-0 h-4 w-4" />
             </a>
-          </div>
-          <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
+          </BubbleContainer>
+          <BubbleContainer>
             <a
               href="https://github.com/madjiebimaa"
               target="_blank"
@@ -41,11 +42,11 @@ export default function Aside() {
             >
               Become a sponsor
             </a>
-          </div>
+          </BubbleContainer>
         </div>
       </header>
       <ColorFilters />
-      <div className="flex justify-center items-center w-fit p-1 rounded-full shadow-md bg-slate-100">
+      <BubbleContainer>
         <NavLink
           to={'/images'}
           className={cn(
@@ -55,7 +56,7 @@ export default function Aside() {
         >
           <Image className="shrink-0 h-4 w-4" />
         </NavLink>
-      </div>
+      </BubbleContainer>
     </aside>
   );
 }

@@ -1,14 +1,18 @@
 import { NavLink } from 'react-router-dom';
 
 import { Color } from '@/lib/types';
-import { generateGrid, getTopNClosestColors } from '@/lib/utils';
+import { cn, generateGrid, getTopNClosestColors } from '@/lib/utils';
 import { useColors } from '@/store/color';
 
 interface ClosestColorAreasProps {
   color: Color;
+  className?: string;
 }
 
-export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
+export default function ClosestColorAreas({
+  color,
+  className,
+}: ClosestColorAreasProps) {
   const colors = useColors();
 
   const numberOfBubbles = 20;
@@ -28,7 +32,12 @@ export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
     }));
 
   return (
-    <section className="grid grid-rows-[repeat(10,_20px)] grid-cols-[repeat(10,_20px)] place-content-center place-items-center gap-2 w-fit">
+    <section
+      className={cn(
+        'grid grid-rows-[repeat(10,_20px)] grid-cols-[repeat(10,_20px)] place-content-center place-items-center gap-2 w-fit',
+        className
+      )}
+    >
       {bubbles.map((bubble) => (
         <NavLink
           key={bubble.id}

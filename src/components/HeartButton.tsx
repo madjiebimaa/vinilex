@@ -1,13 +1,14 @@
 import { Heart } from 'lucide-react';
 import React from 'react';
 
-import { Button, ButtonProps } from './ui/button';
+import { ButtonProps } from './ui/button';
 
 import {
   useColorActions,
   useColorFilters,
   useFavoriteColors,
 } from '@/store/color';
+import BubbleButton from './BubbleButton';
 
 interface HeartButtonProps extends ButtonProps {
   colorID: string;
@@ -16,7 +17,7 @@ interface HeartButtonProps extends ButtonProps {
 export const HeartButton = React.forwardRef<
   HTMLButtonElement,
   HeartButtonProps
->(({ className, variant, size, colorID, ...props }, ref) => {
+>(({ className, variant = 'ghost', colorID, ...props }, ref) => {
   const favoriteColors = useFavoriteColors();
   const colorActions = useColorActions();
   const colorFilters = useColorFilters();
@@ -31,10 +32,9 @@ export const HeartButton = React.forwardRef<
   };
 
   return (
-    <Button
+    <BubbleButton
       ref={ref}
       variant={variant}
-      size={size}
       className={className}
       onClick={handleClick}
       {...props}
@@ -44,7 +44,7 @@ export const HeartButton = React.forwardRef<
           isFavoriteColor ? 'text-red-600 fill-red-600' : 'fill-white'
         } transition-colors duration-300`}
       />
-    </Button>
+    </BubbleButton>
   );
 });
 
