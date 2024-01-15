@@ -5,6 +5,7 @@ import {
   Color,
   ColorFilter,
   Grid,
+  Image,
   Matrix,
   MatrixItem,
   RGB,
@@ -91,6 +92,19 @@ function hexCodeToRGB(hexCode: string) {
   const b = parseInt(formattedHexCode.slice(4, 6), baseNumber);
 
   return { r, g, b };
+}
+
+function numberToHexCode(num: number) {
+  const hex = num.toString(16);
+  return hex.length === 1 ? `0${hex}` : hex;
+}
+
+export function RGBToHexCode({ r, g, b }: RGB): string {
+  const rHexCode = numberToHexCode(r);
+  const gHexCode = numberToHexCode(g);
+  const bHexCode = numberToHexCode(b);
+
+  return `#${rHexCode}${gHexCode}${bHexCode}`;
 }
 
 function normalizeRGB({ r, g, b }: RGB) {
@@ -311,10 +325,11 @@ export function generateGrid(
   return grid;
 }
 
-export function filesToImages(files: File[]) {
+export function filesToImages(files: File[]): Image[] {
   return files.map((file) => ({
     ...file,
     id: crypto.randomUUID(),
     preview: URL.createObjectURL(file),
+    dominantColorHexCode: null,
   }));
 }

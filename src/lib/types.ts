@@ -45,6 +45,7 @@ export type GridItem = {
 export type Grid = GridItem[];
 
 export interface Image extends File {
-  id: string
+  id: string;
   preview: string;
+  dominantColorHexCode: string | null;
 }
