@@ -236,7 +236,11 @@ function isItemOverlap(item: MatrixItem | null, matrix: Matrix) {
   return isOverlap;
 }
 
-function generateMatrix(size: number, itemSizes: number[], numberOfItems: number) {
+function generateMatrix(
+  size: number,
+  itemSizes: number[],
+  numberOfItems: number
+) {
   let matrix = generateEmptyMatrix(size);
 
   for (let index = 0; index < numberOfItems; index++) {
@@ -305,4 +309,8 @@ export function generateGrid(
   }
 
   return grid;
+}
+
+export function filesToImages(files: File[]) {
+  return files.map((file) => ({ ...file, preview: URL.createObjectURL(file) }));
 }

@@ -1,9 +1,10 @@
-import { Github } from 'lucide-react';
+import { Github, Image } from 'lucide-react';
 
 import ColorFilters from './ColorFilters';
 import { buttonVariants } from './ui/button';
 
 import { cn } from '@/lib/utils';
+import { NavLink } from 'react-router-dom';
 
 export default function Aside() {
   return (
@@ -44,6 +45,17 @@ export default function Aside() {
         </div>
       </header>
       <ColorFilters />
+      <div className="flex justify-center items-center w-fit p-1 rounded-full shadow-md bg-slate-100">
+        <NavLink
+          to={'/images'}
+          className={cn(
+            buttonVariants({ variant: 'secondary', size: 'icon' }),
+            'rounded-full hover:brightness-90 transition-all duration-300'
+          )}
+        >
+          <Image className="shrink-0 h-4 w-4" />
+        </NavLink>
+      </div>
     </aside>
   );
 }

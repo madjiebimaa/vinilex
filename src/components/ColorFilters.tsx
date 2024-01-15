@@ -45,7 +45,7 @@ export default function ColorFilters() {
         />
       </div>
       <div className="flex items-center md:justify-between gap-2 sm w-full">
-        <div className="flex justify-center items-center p-1 rounded-full shadow-md bg-slate-100">
+        <div className="flex justify-center items-center w-fit p-1 rounded-full shadow-md bg-slate-100">
           <Button
             type="button"
             variant="secondary"

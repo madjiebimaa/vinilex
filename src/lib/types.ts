@@ -43,3 +43,7 @@ export type GridItem = {
 };
 
 export type Grid = GridItem[];
+
+export interface Image extends File {
+  preview: string;
+}

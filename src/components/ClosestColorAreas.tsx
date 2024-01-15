@@ -11,7 +11,7 @@ interface ClosestColorAreasProps {
 export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
   const colors = useColors();
 
-  const numberOfBubbles = 10;
+  const numberOfBubbles = 20;
   const bubbleSizes = [4, 3, 2, ...Array(numberOfBubbles - 3).fill(1)];
   const closestColors = getTopNClosestColors(color, colors, numberOfBubbles);
 
@@ -37,7 +37,7 @@ export default function ClosestColorAreas({ color }: ClosestColorAreasProps) {
             ...bubble.item,
             backgroundColor: bubble.hexCode,
           }}
-          className="w-full h-full rounded-full shadow-md"
+          className="w-full h-full rounded-full shadow-md transition-transform duration-100 ease-in hover:scale-110 hover:transition-transform hover:duration-300 hover:ease-out"
         />
       ))}
     </section>
