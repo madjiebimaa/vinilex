@@ -312,5 +312,9 @@ export function generateGrid(
 }
 
 export function filesToImages(files: File[]) {
-  return files.map((file) => ({ ...file, preview: URL.createObjectURL(file) }));
+  return files.map((file) => ({
+    ...file,
+    id: crypto.randomUUID(),
+    preview: URL.createObjectURL(file),
+  }));
 }

@@ -8,6 +8,7 @@ type ImageState = {
 type ImageActions = {
   actions: {
     setImages: (images: Image[]) => void;
+    removeImage: (id: Image['id']) => void;
   };
 };
 
@@ -19,6 +20,13 @@ const fileStore = create<ImageState & ImageActions>()((set) => ({
   ...intialState,
   actions: {
     setImages: (images) => set({ images }),
+    removeImage: (id) =>
+      set((state) => ({
+        images:
+          state.images !== null && state.images.length >= 1
+            ? state.images.filter((image) => image.id !== id)
+            : state.images,
+      })),
   },
 }));
 
