@@ -4,7 +4,7 @@ import { ElementRef, createRef } from 'react';
 import BubbleButton from './BubbleButton';
 import BubbleContainer from './BubbleContainer';
 
-import { NOT_FOUND_CODE, NOT_FOUND_ID, NOT_FOUND_NAME } from '@/lib/constants';
+import { EMPTY_CODE, EMPTY_ID, EMPTY_NAME } from '@/lib/constants';
 import { Image } from '@/lib/types';
 import { getOppositeContrast } from '@/lib/utils';
 import { useColorActions } from '@/store/color';
@@ -23,9 +23,9 @@ export default function ImageCard({ image }: ImageCardProps) {
   const handleImageClick = () => {
     imageActions.selectImage(image);
     colorActions.selectColor({
-      id: NOT_FOUND_ID,
-      name: NOT_FOUND_NAME,
-      code: NOT_FOUND_CODE,
+      id: EMPTY_ID,
+      name: EMPTY_NAME,
+      code: EMPTY_CODE,
       hexCode: image.dominantColorHexCode!,
     });
   };
@@ -34,9 +34,9 @@ export default function ImageCard({ image }: ImageCardProps) {
     imageActions.removeImage(image.id);
     if (selectedImage && selectedImage.id === image.id) {
       colorActions.selectColor({
-        id: NOT_FOUND_ID,
-        name: NOT_FOUND_NAME,
-        code: NOT_FOUND_CODE,
+        id: EMPTY_ID,
+        name: EMPTY_NAME,
+        code: EMPTY_CODE,
         hexCode: image.dominantColorHexCode!,
       });
     }
@@ -49,7 +49,7 @@ export default function ImageCard({ image }: ImageCardProps) {
     >
       <img
         ref={imageRef}
-        src={image.preview}
+        src={image.preview as string}
         alt="Your uploaded image"
         className="h-full w-full object-cover cursor-pointer transition-transform ease-in duration-300 hover:scale-110 hover:transition-transform hover:duration-500 hover:ease-out"
         onLoad={() =>

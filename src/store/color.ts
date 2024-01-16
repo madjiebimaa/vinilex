@@ -120,7 +120,7 @@ const colorStore = create<ColorState & ColorActions>()(
     }),
     {
       name: 'color-storage',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         favoriteColors: state.favoriteColors,
       }),

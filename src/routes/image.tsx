@@ -7,7 +7,7 @@ import ClosestColorAreas from '@/components/ClosestColorAreas';
 import DropZone from '@/components/DropZone';
 import ImageCardList from '@/components/ImageCardList';
 
-import { NOT_FOUND_CODE, NOT_FOUND_ID, NOT_FOUND_NAME } from '@/lib/constants';
+import { EMPTY_CODE, EMPTY_ID, EMPTY_NAME } from '@/lib/constants';
 import { useSelectedColor } from '@/store/color';
 import { useImages, useSelectedImage } from '@/store/image';
 
@@ -41,9 +41,9 @@ export default function Image() {
       {images !== null && images.length !== 0 && selectedImage !== null ? (
         <ClosestColorAreas
           color={{
-            id: NOT_FOUND_ID,
-            name: NOT_FOUND_NAME,
-            code: NOT_FOUND_CODE,
+            id: EMPTY_ID,
+            name: EMPTY_NAME,
+            code: EMPTY_CODE,
             hexCode: selectedImage.dominantColorHexCode!,
           }}
           className="mx-auto"

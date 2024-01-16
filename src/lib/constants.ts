@@ -1,3 +1,3 @@
-export const NOT_FOUND_ID = 'NOT_FOUND_ID';
-export const NOT_FOUND_NAME = 'NOT_FOUND_NAME';
-export const NOT_FOUND_CODE = 'NOT_FOUND_CODE';
+export const EMPTY_ID = 'EMPTY_ID';
+export const EMPTY_NAME = 'EMPTY_NAME';
+export const EMPTY_CODE = 'EMPTY_CODE';

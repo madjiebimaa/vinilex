@@ -15,16 +15,22 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
 
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
-        if (acceptedFiles && acceptedFiles.length >= 1) {
-          let nextImages: Image[];
-          if (images !== null) {
-            nextImages = [...images, ...filesToImages(acceptedFiles)];
-          } else {
-            nextImages = [...filesToImages(acceptedFiles)];
-          }
+        const setImages = async (acceptedFiles: File[]) => {
+          if (acceptedFiles && acceptedFiles.length >= 1) {
+            let nextImages: Image[];
+            const convertedImages = await filesToImages(acceptedFiles);
 
-          imageActions.setImages(nextImages);
-        }
+            if (images !== null) {
+              nextImages = [...images, ...convertedImages];
+            } else {
+              nextImages = [...convertedImages];
+            }
+
+            imageActions.setImages(nextImages);
+          }
+        };
+
+        setImages(acceptedFiles);
       },
       [images, imageActions]
     );

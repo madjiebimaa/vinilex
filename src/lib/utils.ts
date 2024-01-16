@@ -325,11 +325,30 @@ export function generateGrid(
   return grid;
 }
 
-export function filesToImages(files: File[]): Image[] {
-  return files.map((file) => ({
-    ...file,
-    id: crypto.randomUUID(),
-    preview: URL.createObjectURL(file),
-    dominantColorHexCode: null,
-  }));
+export function filesToImages(files: File[]): Promise<Image[]> {
+  const filePromises: Promise<Image>[] = [];
+
+  files.forEach((file) => {
+    const fileReader = new FileReader();
+
+    const promise = new Promise<Image>((resolve) => {
+      fileReader.onload = () => {
+        const base64 = fileReader.result;
+
+        const image: Image = {
+          ...file,
+          id: crypto.randomUUID(),
+          preview: base64,
+          dominantColorHexCode: null,
+        };
+
+        resolve(image);
+      };
+    });
+
+    filePromises.push(promise);
+    fileReader.readAsDataURL(file);
+  });
+
+  return Promise.all(filePromises);
 }
