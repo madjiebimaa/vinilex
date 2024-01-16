@@ -44,6 +44,17 @@ export type GridItem = {
 
 export type Grid = GridItem[];
 
+export type Bubble = {
+  distance: number;
+  id: string;
+  name: string;
+  code: string;
+  hexCode: string;
+  item: GridItem;
+};
+
+export type Bubbles = Bubble[];
+
 export interface Image extends File {
   id: string;
   preview: string | ArrayBuffer | null;

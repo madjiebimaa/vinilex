@@ -38,6 +38,8 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
     const { getRootProps, getInputProps, isDragAccept, isDragReject } =
       useDropzone({
         onDrop,
+        maxSize: 100 * 1000, // 100 kB
+        maxFiles: 10,
         accept: {
           'image/*': ['.png', '.jpg', '.webp', '.svg'],
         },
@@ -48,7 +50,7 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
         {...getRootProps({
           ref,
           className: cn(
-            'grid place-content-center max-w-[400px] py-5 md:py-10 px-10 md:px-20 rounded-xl shadow-md bg-slate-200 text-black border-2 border-dashed border-slate-500 cursor-pointer hover:brightness-90 transition-all duration-300',
+            'grid place-content-center max-w-[400px] py-5 md:py-10 px-8 md:px-20 rounded-xl shadow-md bg-slate-200 text-black border-2 border-dashed border-slate-500 cursor-pointer hover:brightness-90 transition-all duration-300',
             isDragAccept && 'bg-green-400',
             isDragReject && 'bg-red-400',
             className
@@ -62,9 +64,18 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
           <p className="font-sans font-bold text-sm md:text-lg text-center uppercase">
             drop file here
           </p>
-          <p className="font-sans text-xs md:text-sm text-center">
-            Drag and drop your PNG, JPG, WebP, or SVG images here.
-          </p>
+          <div className="font-sans text-xs md:text-sm text-center">
+            <p>
+              Drag and drop your <span className="font-semibold">PNG</span>,{' '}
+              <span className="font-semibold">JPG</span>,{' '}
+              <span className="font-semibold">WebP</span>, or{' '}
+              <span className="font-semibold">SVG</span> images here.
+            </p>
+            <p>
+              Up to <span className="font-semibold">100 kB</span> and dropped{' '}
+              <span className="font-semibold">10 files</span>.
+            </p>
+          </div>
         </div>
       </div>
     );

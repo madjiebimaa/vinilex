@@ -21,7 +21,7 @@ export default function Color() {
   const bubbleLabelStyles = {
     className: cn(
       buttonVariants({ variant: 'ghost', size: 'sm' }),
-      'h-10 rounded-full bg-white font-sans font-semibold hover:bg-white'
+      'h-10 rounded-full bg-slate-100 font-sans font-semibold hover:bg-slate-100'
     ),
   };
 

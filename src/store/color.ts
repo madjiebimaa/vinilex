@@ -48,7 +48,7 @@ const colorStore = create<ColorState & ColorActions>()(
             if (
               state.selectedColor &&
               state.selectedColor.background.id === color.id &&
-                state.selectedColor.background.hexCode === color.hexCode
+              state.selectedColor.background.hexCode === color.hexCode
             ) {
               return {
                 selectedColor: null,
@@ -123,6 +123,7 @@ const colorStore = create<ColorState & ColorActions>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         favoriteColors: state.favoriteColors,
+        selectedColor: state.selectedColor,
       }),
     }
   )

@@ -10,6 +10,7 @@ import { Button } from './ui/button';
 
 import { ColorFilter } from '@/lib/types';
 import { useColorActions, useColorFilters } from '@/store/color';
+import BubbleContainer from './BubbleContainer';
 
 export default function ColorSorters() {
   const colorFilters = useColorFilters();
@@ -63,11 +64,10 @@ export default function ColorSorters() {
   ];
 
   return (
-    <div className="flex justify-center items-center gap-1 p-1 rounded-full shadow-md bg-slate-100">
+    <BubbleContainer className="gap-1">
       {sorters.map(({ label, Icon, onClick }, index) => (
         <Button
           key={label}
-          type="button"
           variant="secondary"
           size="icon"
           className={`rounded-full hover:brightness-90 transition-all duration-300 ${
@@ -80,6 +80,6 @@ export default function ColorSorters() {
           <Icon className={`shrink-0 h-4 w-4`} />
         </Button>
       ))}
-    </div>
+    </BubbleContainer>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 import { useColorActions, useColorFilters } from '@/store/color';
+import BubbleContainer from './BubbleContainer';
 
 export default function ColorFilters() {
   const colorFilters = useColorFilters();
@@ -33,8 +34,8 @@ export default function ColorFilters() {
   };
 
   return (
-    <form className="flex flex-col justify-center items-center gap-2 w-full mx-auto mt-4">
-      <div className="relative w-full p-1 rounded-full shadow-md bg-slate-100">
+    <section className="flex flex-col justify-center items-center gap-2 w-full mx-auto mt-4">
+      <BubbleContainer className="relative w-full">
         <Search className="absolute left-4 top-4 h-4 w-4 text-slate-500" />
         <Input
           type="text"
@@ -43,11 +44,10 @@ export default function ColorFilters() {
           placeholder="Search"
           className="pl-10 rounded-full border-none text-black"
         />
-      </div>
+      </BubbleContainer>
       <div className="flex items-center md:justify-between gap-2 sm w-full">
-        <div className="flex justify-center items-center w-fit p-1 rounded-full shadow-md bg-slate-100">
+        <BubbleContainer>
           <Button
-            type="button"
             variant="secondary"
             size="icon"
             className="rounded-full hover:brightness-90 transition-all duration-300"
@@ -61,9 +61,9 @@ export default function ColorFilters() {
               } transition-colors duration-300`}
             />
           </Button>
-        </div>
+        </BubbleContainer>
         <ColorSorters />
       </div>
-    </form>
+    </section>
   );
 }
