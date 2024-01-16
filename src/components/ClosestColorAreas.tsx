@@ -31,8 +31,10 @@ export default function ClosestColorAreas({
           return sizeA - sizeB;
         })
         .map((item, index) => ({
-          item,
-          ...closestColors[index],
+          position: item,
+          color: {
+            ...closestColors[index],
+          },
         }))
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,11 +50,11 @@ export default function ClosestColorAreas({
       {bubbles !== null
         ? bubbles.map((bubble) => (
             <NavLink
-              key={bubble.id}
-              to={`/colors/${bubble.id}`}
+              key={bubble.color.id}
+              to={`/colors/${bubble.color.id}`}
               style={{
-                ...bubble.item,
-                backgroundColor: bubble.hexCode,
+                ...bubble.position,
+                backgroundColor: bubble.color.hexCode,
               }}
               className="w-full h-full rounded-full shadow-md transition-transform duration-100 ease-in hover:scale-110 hover:transition-transform hover:duration-300 hover:ease-out"
             />

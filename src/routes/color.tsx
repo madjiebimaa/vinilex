@@ -1,13 +1,14 @@
 import { ArrowLeft, Home } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import BubbleButton from '@/components/BubbleButton';
+import BubbleContainer from '@/components/BubbleContainer';
 import ClosestColorAreas from '@/components/ClosestColorAreas';
 import CopyButton from '@/components/CopyButton';
 import HeartButton from '@/components/HeartButton';
 import { buttonVariants } from '@/components/ui/button';
 
-import BubbleButton from '@/components/BubbleButton';
-import BubbleContainer from '@/components/BubbleContainer';
+import Footer from '@/components/Footer';
 import { cn } from '@/lib/utils';
 import { useColors } from '@/store/color';
 
@@ -79,6 +80,7 @@ export default function Color() {
         ))}
       </div>
       <ClosestColorAreas color={color} />
+      <Footer />
     </main>
   );
 }

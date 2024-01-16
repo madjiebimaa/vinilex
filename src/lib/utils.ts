@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import {
   Color,
   ColorFilter,
+  Colors,
   Grid,
   Image,
   Matrix,
@@ -35,7 +36,7 @@ export function getColorSortOpponents(colorFilter: ColorFilter) {
 }
 
 export function applyColorFilter(
-  filteredColors: Color[],
+  filteredColors: Colors,
   colorFilters: Set<ColorFilter>,
   favoriteColors: Color['id'][]
 ) {
@@ -61,7 +62,7 @@ function numericComparison(a: Color, b: Color) {
 }
 
 export function applyColorSort(
-  filteredColors: Color[],
+  filteredColors: Colors,
   colorFilters: Set<ColorFilter>
 ) {
   if (colorFilters.has('increment-alphabet')) {
@@ -163,7 +164,7 @@ function colorDistance(rgb: RGB, comparedRgb: RGB) {
 
 export function getTopNClosestColors(
   color: Color,
-  comparedColors: Color[],
+  comparedColors: Colors,
   n: number = 5
 ) {
   return comparedColors

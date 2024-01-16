@@ -5,6 +5,8 @@ export type Color = {
   hexCode: string;
 };
 
+export type Colors = Color[];
+
 export type ColorFilter =
   | 'favorite'
   | 'increment-alphabet'
@@ -45,12 +47,10 @@ export type GridItem = {
 export type Grid = GridItem[];
 
 export type Bubble = {
-  distance: number;
-  id: string;
-  name: string;
-  code: string;
-  hexCode: string;
-  item: GridItem;
+  color: Color & {
+    distance: number;
+  };
+  position: GridItem;
 };
 
 export type Bubbles = Bubble[];
