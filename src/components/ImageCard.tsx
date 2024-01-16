@@ -4,9 +4,11 @@ import { ElementRef, createRef } from 'react';
 import BubbleButton from './BubbleButton';
 import BubbleContainer from './BubbleContainer';
 
+import { NOT_FOUND_CODE, NOT_FOUND_ID, NOT_FOUND_NAME } from '@/lib/constants';
 import { Image } from '@/lib/types';
 import { getOppositeContrast } from '@/lib/utils';
-import { useImageActions } from '@/store/image';
+import { useColorActions } from '@/store/color';
+import { useImageActions, useSelectedImage } from '@/store/image';
 
 interface ImageCardProps {
   image: Image;
@@ -14,12 +16,36 @@ interface ImageCardProps {
 
 export default function ImageCard({ image }: ImageCardProps) {
   const imageRef = createRef<ElementRef<'img'>>();
+  const selectedImage = useSelectedImage();
   const imageActions = useImageActions();
+  const colorActions = useColorActions();
+
+  const handleImageClick = () => {
+    imageActions.selectImage(image);
+    colorActions.selectColor({
+      id: NOT_FOUND_ID,
+      name: NOT_FOUND_NAME,
+      code: NOT_FOUND_CODE,
+      hexCode: image.dominantColorHexCode!,
+    });
+  };
+
+  const handleTrashClick = () => {
+    imageActions.removeImage(image.id);
+    if (selectedImage && selectedImage.id === image.id) {
+      colorActions.selectColor({
+        id: NOT_FOUND_ID,
+        name: NOT_FOUND_NAME,
+        code: NOT_FOUND_CODE,
+        hexCode: image.dominantColorHexCode!,
+      });
+    }
+  };
 
   return (
     <div
       key={image.id}
-      className="group/image-card relative h-40 w-full md:w-40 overflow-hidden rounded-xl"
+      className="group/image-card relative h-40 md:w-40 w-32 overflow-hidden rounded-xl shadow-md"
     >
       <img
         ref={imageRef}
@@ -29,7 +55,7 @@ export default function ImageCard({ image }: ImageCardProps) {
         onLoad={() =>
           imageActions.addDominantColorToImage(image.id, imageRef.current!)
         }
-        onClick={() => imageActions.selectImage(image)}
+        onClick={handleImageClick}
       />
       <BubbleContainer className="absolute top-2 right-2 z-10 opacity-0 transition-opacity duration-100 ease-in group-hover/image-card:opacity-100 group-hover/image-card:transition-opacity group-hover/image-card:duration-300 group-hover/image-card:ease-out">
         <BubbleButton
@@ -41,7 +67,7 @@ export default function ImageCard({ image }: ImageCardProps) {
                 }
               : {}
           }
-          onClick={() => imageActions.removeImage(image.id)}
+          onClick={handleTrashClick}
         >
           <Trash className="shrink-0 h-4 w-4" />
         </BubbleButton>

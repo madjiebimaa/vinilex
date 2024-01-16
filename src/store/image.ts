@@ -1,7 +1,8 @@
-import { Image } from '@/lib/types';
-import { RGBToHexCode } from '@/lib/utils';
 import ColorThief from 'colorthief';
 import { create } from 'zustand';
+
+import { Image } from '@/lib/types';
+import { RGBToHexCode } from '@/lib/utils';
 
 const colorThief = new ColorThief();
 
@@ -37,6 +38,10 @@ const imageStore = create<ImageState & ImageActions>()((set) => ({
           state.images !== null && state.images.length >= 1
             ? state.images.filter((image) => image.id !== id)
             : state.images,
+        selectedImage:
+          state.selectedImage && state.selectedImage.id === id
+            ? null
+            : state.selectedImage,
       })),
     addDominantColorToImage: (id, imageRef) =>
       set((state) => {

@@ -47,7 +47,8 @@ const colorStore = create<ColorState & ColorActions>()(
           set((state) => {
             if (
               state.selectedColor &&
-              state.selectedColor.background.id === color.id
+              state.selectedColor.background.id === color.id &&
+                state.selectedColor.background.hexCode === color.hexCode
             ) {
               return {
                 selectedColor: null,

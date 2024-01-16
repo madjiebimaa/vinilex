@@ -42,7 +42,7 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
         {...getRootProps({
           ref,
           className: cn(
-            'grid place-content-center max-w-[400px] py-5 md:py-10 px-10 md:px-20 rounded-xl bg-slate-200 border-2 border-dashed border-slate-500 cursor-pointer hover:brightness-90 transition-all duration-300',
+            'grid place-content-center max-w-[400px] py-5 md:py-10 px-10 md:px-20 rounded-xl shadow-md bg-slate-200 text-black border-2 border-dashed border-slate-500 cursor-pointer hover:brightness-90 transition-all duration-300',
             isDragAccept && 'bg-green-400',
             isDragReject && 'bg-red-400',
             className
