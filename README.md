@@ -1,30 +1,35 @@
-# React + TypeScript + Vite
+# <img alt="Vinilex Logo" src="./public/favicon.ico" height="20"/> [Vinilex](https://vinilex.vercel.app/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
 
-Currently, two official plugins are available:
+- Upload the image to get the dominant color
+- Closest/similar colors based on selected color
+- Copy hex code value based on selected color
+- Change the background color and corresponding text color based on the selected color
+- Add color to favorited
+- Search color based on the color name
+- Filter color based on favorited
+- Sort color based on color name (increasing/decreasing) or color code (increasing/decreasing)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup In Local
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- `node` version `20.10.0` or higher installed on your machine
+- `npm` package manager version `10.2.3` or higher installed on your machine
 
-- Configure the top-level `parserOptions` property like this:
+### Development
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- Install all dependencies, by running `npm install`
+- Run in local, using command `npm run dev`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Credits
+
+- [Vite.js](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- Icons by [Lucide React](https://lucide.dev/guide/packages/lucide-react)
+- Nippon Paints for the color palettes
+
+Copyright © 2024 by Muhammad Adjie Bimaditya
