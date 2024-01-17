@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { FileRejection } from 'react-dropzone';
 import {
   Color,
   ColorFilter,
@@ -352,4 +353,18 @@ export function filesToImages(files: File[]): Promise<Image[]> {
   });
 
   return Promise.all(filePromises);
+}
+
+export function rejectedFilesToFileErrors(
+  rejectedFiles: FileRejection[]
+): string[] {
+  const errorsMap = new Map<string, string>();
+
+  rejectedFiles.forEach((rejectedFile) => {
+    rejectedFile.errors.forEach((error) => {
+      !errorsMap.has(error.code) && errorsMap.set(error.code, error.message);
+    });
+  });
+
+  return Array.from(errorsMap, ([, value]) => value);
 }

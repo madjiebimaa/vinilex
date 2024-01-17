@@ -1,32 +1,35 @@
 import { FileUp } from 'lucide-react';
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FileRejection, useDropzone } from 'react-dropzone';
 
-import { Image } from '@/lib/types';
-import { cn, filesToImages } from '@/lib/utils';
+import { cn, filesToImages, rejectedFilesToFileErrors } from '@/lib/utils';
 import { useImageActions, useImages } from '@/store/image';
+import { useToast } from './ui/use-toast';
 
 interface DropZoneProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
   ({ className, ...props }, ref) => {
+    const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
     const images = useImages();
     const imageActions = useImageActions();
+    const { toast } = useToast();
 
     const onDrop = useCallback(
-      (acceptedFiles: File[]) => {
+      (acceptedFiles: File[], fileRejections: FileRejection[]) => {
         const setImages = async (acceptedFiles: File[]) => {
           if (acceptedFiles && acceptedFiles.length >= 1) {
-            let nextImages: Image[];
             const convertedImages = await filesToImages(acceptedFiles);
-
-            if (images !== null) {
-              nextImages = [...images, ...convertedImages];
-            } else {
-              nextImages = [...convertedImages];
-            }
+            const nextImages =
+              images !== null
+                ? [...images, ...convertedImages]
+                : [...convertedImages];
 
             imageActions.setImages(nextImages);
+          }
+
+          if (fileRejections && fileRejections.length >= 1) {
+            setRejectedFiles(fileRejections);
           }
         };
 
@@ -39,11 +42,22 @@ const DropZone = React.forwardRef<HTMLDivElement, DropZoneProps>(
       useDropzone({
         onDrop,
         maxSize: 100 * 1000, // 100 kB
-        maxFiles: 10,
+        maxFiles: 1,
         accept: {
           'image/*': ['.png', '.jpg', '.webp', '.svg'],
         },
       });
+
+    useEffect(() => {
+      const errors = rejectedFilesToFileErrors(rejectedFiles);
+      errors.forEach((error) => {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: `${error}.`,
+        });
+      });
+    }, [rejectedFiles, toast]);
 
     return (
       <div

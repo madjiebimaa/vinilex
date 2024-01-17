@@ -5,9 +5,10 @@ import BubbleButton from '@/components/BubbleButton';
 import BubbleContainer from '@/components/BubbleContainer';
 import ClosestColorAreas from '@/components/ClosestColorAreas';
 import DropZone from '@/components/DropZone';
-import ImageCardList from '@/components/ImageCardList';
-
 import Footer from '@/components/Footer';
+import ImageCardList from '@/components/ImageCardList';
+import { Toaster } from '@/components/ui/toaster';
+
 import { EMPTY_CODE, EMPTY_ID, EMPTY_NAME } from '@/lib/constants';
 import { useSelectedColor } from '@/store/color';
 import { useImages, useSelectedImage } from '@/store/image';
@@ -38,7 +39,7 @@ export default function Image() {
         </BubbleButton>
       </BubbleContainer>
       <DropZone className="mx-auto" />
-      <ImageCardList className='flex-1' />
+      <ImageCardList className="flex-1" />
       {images !== null && images.length !== 0 && selectedImage !== null ? (
         <ClosestColorAreas
           color={{
@@ -51,6 +52,7 @@ export default function Image() {
         />
       ) : null}
       <Footer />
+      <Toaster />
     </main>
   );
 }
